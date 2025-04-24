@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 from llama_index.chat_engine.condense_plus_context import CondensePlusContextChatEngine
-from llama_index.llms.openai import OpenAI
+from llama_index.llms.ollama import Ollama
 from llama_index.llms.types import ChatMessage, MessageRole
 from llama_index.query_engine import RetrieverQueryEngine
 from llama_index.retrievers import PathwayRetriever
@@ -42,7 +42,7 @@ retriever.client = VectorStoreClient(
     host=PATHWAY_HOST, port=PATHWAY_PORT, additional_headers=get_additional_headers()
 )
 
-llm = OpenAI(model="gpt-3.5-turbo")
+llm = Ollama(model="mistral", request_timeout=120.0)
 
 query_engine = RetrieverQueryEngine.from_args(
     retriever,
