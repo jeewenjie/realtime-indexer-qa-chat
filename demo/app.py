@@ -7,7 +7,7 @@ import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
 from endpoint_utils import get_inputs
-from llama_index.llms.types import ChatMessage, MessageRole
+from llama_index.core.llms import ChatMessage, MessageRole
 from log_utils import init_pw_log_config
 from rag import DEFAULT_PATHWAY_HOST, PATHWAY_HOST, chat_engine, vector_client
 from streamlit.web.server.websocket_headers import _get_websocket_headers
@@ -69,20 +69,6 @@ with st.sidebar:
         )
     else:
         st.markdown(f"**Connected to:** {PATHWAY_HOST}")
-        st.markdown(
-            "[View code on GitHub.](https://github.com/pathway-labs/chat-realtime-sharepoint-gdrive)"
-        )
-
-    st.markdown(
-        """**Ready to build your own?**
-
-Our [docs](https://pathway.com/developers/showcases/llamaindex-pathway/) walk through creating custom pipelines with LlamaIndex.
-
-**Want a hosted version?**
-
-Check out our [hosted document pipelines](https://cloud.pathway.com/docindex)."""
-    )
-
 
 # Load environment variables
 load_dotenv()
@@ -90,18 +76,8 @@ load_dotenv()
 
 # Streamlit UI elements
 st.write(
-    "## Chat with all your enterprise documents realtime ⚡ in Google Drive & Sharepoint"
+    "## Chat with all your enterprise documents realtime in Google Drive & Sharepoint"
 )
-
-
-htt = """
-<p>
-    <span> Built With: </span>
-    <img src="./app/static/combinedhosted.png" width="300" alt="Google Drive Logo">
-</p>
-"""
-st.markdown(htt, unsafe_allow_html=True)
-
 
 image_width = 300
 image_height = 200
@@ -126,9 +102,9 @@ if "messages" not in st.session_state.keys():
         )
     )
 
-    pathway_explaination = "Pathway is a high-throughput, low-latency data processing framework that handles live data & streaming for you."
+    pathway_explaination = "Please allow a few minutes for new documents to be indexed. The underlying engine handles live document change for you. Query away."
     DEFAULT_MESSAGES = [
-        ChatMessage(role=MessageRole.USER, content="What is Pathway?"),
+        ChatMessage(role=MessageRole.USER, content="How to use this?"),
         ChatMessage(role=MessageRole.ASSISTANT, content=pathway_explaination),
     ]
     chat_engine.chat_history.clear()
